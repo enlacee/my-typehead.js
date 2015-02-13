@@ -1,4 +1,7 @@
-### INTRO plugin  typeahead.js
+=======
+# my-typehead.js
+
+## INTRO plugin  typeahead.js
 
 review for development search (autocomplete)
 
@@ -6,7 +9,6 @@ review for development search (autocomplete)
 
 
 Exmaples in testing review code and functionality
-=======
-# my-typehead.js
+
 
 
