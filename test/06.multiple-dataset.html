@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+    <script src="../bower_components/jquery/jquery.js"></script>
+    <script src="../dist/typeahead.bundle.js"></script>
+    
+    <style>
+    #custom-templates .empty-message {
+      padding: 5px 10px;
+     text-align: center;
+    }
+    </style>
+    <title>Custom Templates</title>
+    </head>
+
+    <body>
+    <div class="container">
+
+      <div id="multiple-datasets">
+          <input class="typeahead" type="text" placeholder="NBA and NHL teams">
+      </div> 
+
+    </div>
+    <script>
+    var nbaTeams = new Bloodhound({
+      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('team'),
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      prefetch: 'nba.json',
+      remote: '../data/films/nba/%QUERY.json'
+    });
+     
+    var nhlTeams = new Bloodhound({
+      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('team'),
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      prefetch: 'nhl.json',
+      remote: '../data/films/nhl/?keyword=%QUERY&distrit=121202'
+    });
+     
+    nbaTeams.initialize();
+    nhlTeams.initialize();
+     
+    $('#multiple-datasets .typeahead').typeahead({
+      highlight: true
+    },
+    {
+      name: 'nba-teams',
+      displayKey: 'team',
+      source: nbaTeams.ttAdapter(),
+      templates: {
+        header: '<h3 class="league-name">NBA Teams</h3>'
+      }
+    },
+    {
+      name: 'nhl-teams',
+      displayKey: 'team',
+      source: nhlTeams.ttAdapter(),
+      templates: {
+        header: '<h3 class="league-name">NHL Teams</h3>'
+      }
+    });
+    </script>
+    </body>
+    </html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+    <script src="../bower_components/jquery/jquery.js"></script>
+    <script src="../dist/typeahead.bundle.js"></script>
+    
+    <style>
+    #scrollable-dropdown-menu .tt-dropdown-menu {
+      max-height: 150px;
+      overflow-y: auto;
+    }
+    </style>
+    <title>Custom Templates</title>
+    </head>
+
+    <body>
+    <div class="container">
+
+    <div id="scrollable-dropdown-menu">
+      <input class="typeahead" type="text" placeholder="Countries">
+    </div>
+
+    </div>
+    <script>
+    var countries = new Bloodhound({
+      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      limit: 10,
+      prefetch: {
+        // url points to a json file that contains an array of country names, see
+        // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
+        url: 'countries.json',
+        // the json file contains an array of strings, but the Bloodhound
+        // suggestion engine expects JavaScript objects so this converts all of
+        // those strings
+        filter: function(list) {
+          return $.map(list, function(country) { return { name: country }; });
+        }
+      }
+    });
+     
+    // kicks off the loading/processing of `local` and `prefetch`
+    countries.initialize();
+
+
+    $('#scrollable-dropdown-menu .typeahead').typeahead(null, {
+      name: 'countries',
+      displayKey: 'name',
+      source: countries.ttAdapter()
+    });
+    </script>
+    </body>
+    </html>
